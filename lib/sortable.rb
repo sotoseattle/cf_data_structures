@@ -3,7 +3,7 @@ module Sortable
   refine Array do
     def insert_sort
       sorted = []
-      self.each do |e|
+      each do |e|
         if (i = sorted.find_index { |x| e < x })
           sorted.insert(i, e)
         else
