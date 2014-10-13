@@ -4,20 +4,10 @@
 
 My implementation has the following characteristics:
 
-- takes advantage of Ruby methods like `insert` and `find_index` (Enumerable).
+- takes advantage of Ruby methods like `insert` and `rindex`.
 - monkeypatches Array but within a module that calls `refine`, so it both simpler to use and safer.
-- returns a new sorted array without modifying self, like sort does.
-- may not be the most efficient but I think it is pretty readable and simple.
-
-<div style='text-align: center;'>
-![](http://upload.wikimedia.org/wikipedia/commons/0/0f/Insertion-sort-example-300px.gif)
-</div>
-
-An interesting aspect is that although my implementation iterates the array elements from left to right, it then compares in the invariant array **_also left to right_** (unlike the example above in the image which is right to left).
-
-This means that the **best scenario** (quickest sort) will happen when the array is already sorted in reverse order because it will keep on 'unshifting' to the front of the array (a single comparisson and insertion for each element), making the complexity linear: O(n).
-
-The **worst scenario** (slowest sort) happens with an already sorted array, because it has to traverse from left to right the whole sorted yet partially formed array, and insert the element at the rightmost position. This means n (n-1) / 2 or O(n<sup>2</sup>)
+- returns a new sorted array without modifying self, just like sort does.
+- may not be the most efficient (use of reduce) but I think it is pretty readable and simple.
 
 ##### Algorithm:
 
@@ -25,10 +15,10 @@ The **worst scenario** (slowest sort) happens with an already sorted array, beca
 def insert_sort # original readeable implementation
   sorted = []
   self.each do |e|
-    if (i = sorted.find_index { |x| e < x })
-      sorted.insert(i, e)
+    if (i = sorted.rindex { |x| e > x })
+      sorted.insert(i+1, e)
     else
-      sorted << e
+      sorted.insert(0, e)
     end
   end
   sorted
@@ -40,8 +30,8 @@ Which is refactored to a somewhat more cryptic:
 ```ruby
 def insert_sort
   reduce([]) do |sorted, e|
-    i = sorted.find_index { |x| e < x } || -1
-    sorted.insert(i, e)
+    i = sorted.rindex { |x| e > x } || -1
+    sorted.insert(i+1, e)
   end
 end
 ```

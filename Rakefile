@@ -1,3 +1,5 @@
+# ENV['BENCH'] ||= 'test'
+
 # based on http://crashruby.com/2013/05/10/running-a-minitest-suite/
 require 'rake/testtask'
 
