@@ -29,6 +29,19 @@ def insert_sort
 end
 ```
 
+Which is refactored to a somewhat more cryptic:
+
+```ruby
+def insert_sort
+  reduce([]) do |sorted, e|
+    i = sorted.find_index { |x| e < x } || -1
+    sorted.insert(i, e)
+  end
+end
+```
+
+It could be minimized into a single line, but then all readability goes away.
+
 ##### Call it like it is:
 
 ```ruby
