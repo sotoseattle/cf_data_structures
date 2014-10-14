@@ -36,11 +36,15 @@ describe 'Array#insert_sort algorithm' do
   describe 'insert_sort benchmarking' do
     require 'minitest/benchmark'
     if ENV['BENCH']
-      bench_performance_linear 'insert_sort FAST', 0.9999 do |_n|
+      bench_performance_constant 'insert_sort FAST', 0.9999 do |_n|
         100.times { input.insert_sort }
       end
 
-      bench_performance_linear 'insert_sort SLOW', 0.9999 do |_n|
+      bench_performance_constant 'insert_sort RANDOM', 0.9999 do |_n|
+        100.times { input.shuffle.insert_sort }
+      end
+
+      bench_performance_constant 'insert_sort SLOW', 0.9999 do |_n|
         100.times { input.reverse.insert_sort }
       end
     end
