@@ -7,7 +7,15 @@ module Sortable
       end
     end
 
-    def conquer(a, b)
+    def merge_sort
+      wip = each_slice(1).to_a
+      wip = wip.each_slice(2).map { |a, b| merge_arr(a, b) } while wip.size > 1
+      wip.flatten
+    end
+
+    private
+
+    def merge_arr(a, b)
       return a unless b
       sol = []
       i, j = 0, 0
@@ -21,18 +29,6 @@ module Sortable
         end
       end
       sol.concat(b[j..-1]).concat(a[i..-1])
-    end
-
-    def iteration(arr)
-      arr.each_slice(2).map { |a, b| conquer(a, b) }
-    end
-
-    def merge_sort
-      wip = each_slice(1).to_a
-      while wip.size > 1
-        wip = iteration(wip)
-      end
-      wip.flatten
     end
   end
 end

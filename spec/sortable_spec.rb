@@ -20,30 +20,23 @@ describe 'Sortable' do
 
     describe 'insert_sort benchmarking' do
       require 'minitest/benchmark'
-      if ENV['BENCH']
-        bench_performance_constant 'insert_sort FAST', 0.9999 do |_n|
-          100.times { input.insert_sort }
-        end
+      # if ENV['BENCH']
+      #   bench_performance_constant 'insert_sort FAST', 0.9999 do |_n|
+      #     100.times { input.insert_sort }
+      #   end
 
-        bench_performance_constant 'insert_sort RANDOM', 0.9999 do |_n|
-          100.times { input.shuffle.insert_sort }
-        end
+      #   bench_performance_constant 'insert_sort RANDOM', 0.9999 do |_n|
+      #     100.times { input.shuffle.insert_sort }
+      #   end
 
-        bench_performance_constant 'insert_sort SLOW', 0.9999 do |_n|
-          100.times { input.reverse.insert_sort }
-        end
-      end
+      #   bench_performance_constant 'insert_sort SLOW', 0.9999 do |_n|
+      #     100.times { input.reverse.insert_sort }
+      #   end
+      # end
     end
   end
 
   describe 'Array#merge_sort algorithm' do
-    describe 'sorts arrays: ordered, suffled, reversed' do
-      it 'conquer!!!!' do
-        [].conquer([1,2,3], [4,5,6]).must_equal [1,2,3,4,5,6]
-        [].conquer([4,5,6], [1,2,3]).must_equal [1,2,3,4,5,6]
-      end
-    end
-
     describe 'sorts arrays: ordered, suffled, reversed' do
       it { input.merge_sort.must_equal sorted }
       it { input.shuffle.merge_sort.must_equal sorted }
@@ -58,8 +51,9 @@ describe 'Sortable' do
 
     describe 'merge_sort benchmarking' do
       require 'minitest/benchmark'
+      require 'benchmark'
       if ENV['BENCH']
-        bench_performance_constant 'merge_sort FAST', 0.9999 do |_n|
+        bench_performance_constant 'merge_sort ORDERED', 0.9999 do |_n|
           100.times { input.merge_sort }
         end
 
@@ -67,8 +61,17 @@ describe 'Sortable' do
           100.times { input.shuffle.merge_sort }
         end
 
-        bench_performance_constant 'merge_sort SLOW', 0.9999 do |_n|
+        bench_performance_constant 'merge_sort REVERSED', 0.9999 do |_n|
           100.times { input.reverse.merge_sort }
+        end
+
+        it 'is benchmarked for awesomeness' do
+          puts 'Best'
+          puts Benchmark.measure { (1..100_000).to_a.merge_sort }
+          puts 'Worst'
+          puts Benchmark.measure { 100_000.downto(1).to_a.merge_sort }
+          puts 'Random'
+          puts Benchmark.measure { (1..100_000).to_a.shuffle.merge_sort }
         end
       end
     end
