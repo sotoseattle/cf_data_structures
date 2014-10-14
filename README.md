@@ -15,7 +15,7 @@ My implementation has the following characteristics:
 def insert_sort # original readeable implementation
   sorted = []
   self.each do |e|
-    if (i = sorted.rindex { |x| e > x })
+    if (i = sorted.rindex { |x| x <= e })
       sorted.insert(i+1, e)
     else
       sorted.insert(0, e)
@@ -30,7 +30,7 @@ Which is refactored to a somewhat more cryptic:
 ```ruby
 def insert_sort
   reduce([]) do |sorted, e|
-    i = sorted.rindex { |x| e > x } || -1
+    i = sorted.rindex { |x| x <= e } || -1
     sorted.insert(i+1, e)
   end
 end
@@ -48,6 +48,11 @@ p [3, 5, 2, 1].insert_sort  # =>  [1, 2, 3, 5]
 ```
 
 Beware that neither irb nor pry understande 'refinements'. You'll need to execute a ruby file.
+
+## Contribuitors:
+
+- Javier Soto
+- Derek Maffet, who realized that to make Insert Sort stable the condition should be x <= e instead of simple x < e
 
 ## Readings:
 
