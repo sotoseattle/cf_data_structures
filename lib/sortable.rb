@@ -1,9 +1,9 @@
 module Sortable
   refine Array do
     def insert_sort
-      reduce([]) do |sorted, e|
-        i = sorted.rindex { |x| x <= e } || -1
-        sorted.insert(i + 1, e)
+      reduce([]) do |acc, ele|
+        i = acc.rindex { |x| x <= ele } || -1
+        acc.insert(i + 1, ele)
       end
     end
   end
