@@ -37,37 +37,35 @@ module Sortable
     end
 
     def quick_sort
-      return self if size < 2
+      self.shuffle!
+      return self if size <= 1
 
       i, j = 0, 1
       while j < size
-        compare_and_swap(i,j)
+        i, j = compare_and_swap(i,j) if i < j
+        j, i = compare_and_swap(j,i) if i > j
         j += 1
       end
 
-      self[0...i].quick_sort + [self[i]] + self[i+1..-1].quick_sort
+      left_side(i) + [self[i]] + right_side(i)
     end
 
     private
 
-    def on_left_yet_bigger?(pivot, j)
-      j < pivot && self[j] > self[pivot]
+    def left_side(i)
+      self[0...i].quick_sort
     end
 
-    def on_right_yet_smaller?(pivot, j)
-      j > pivot && self[j] <= self[pivot]
+    def right_side(i)
+      self[i+1..-1].quick_sort
     end
 
-    def compare_and_swap(pivot, j)
-      if on_left_yet_bigger?(pivot, j) || on_right_yet_smaller?(pivot, j)
-        self[pivot], self[j] = self[j], self[pivot]
-        pivot, j = j, pivot
+    def compare_and_swap(x, y)
+      if self[y] < self[x]
+        self[x], self[y] = self[y], self[x]
+        x, y = y, x
       end
+      [x, y]
     end
   end
 end
-
-# using Sortable
-# p [4, 6, 3, 1, 5, 2].quick_sort
-# a = [*1..1_000].shuffle.quick_sort
-# p a[0..10]
