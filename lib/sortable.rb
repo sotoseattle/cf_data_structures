@@ -1,5 +1,7 @@
 module Sortable
   refine Array do
+
+    # Sorting methods
     def insert_sort
       reduce([]) do |acc, ele|
         i = acc.rindex { |x| x <= ele } || -1
@@ -9,26 +11,29 @@ module Sortable
 
     def merge_sort
       wip = each_slice(1).to_a
-      wip = wip.each_slice(2).map { |a, b| merge_sorted(a, b) } while wip.size > 1
+      while wip.size > 1
+        wip = wip.each_slice(2).map do |a, b|
+          a.extrude(b) { |x, y| x <= y }
+        end
+      end
       wip.flatten
     end
 
-    private
-
-    def merge_sorted(a, b)
-      return a unless b
+    # Enumerable method
+    def extrude(other)
+      return self unless other
       sol = []
       i, j = 0, 0
-      while a[i] && b[j]
-        if a[i] <= b[j]
-          sol << a[i]
+      while self[i] && other[j]
+        if yield(self[i], other[j])
+          sol << self[i]
           i += 1
         else
-          sol << b[j]
+          sol << other[j]
           j += 1
         end
       end
-      a[i] ? sol.concat(a[i..-1]) : sol.concat(b[j..-1])
+      self[i] ? sol.concat(self[i..-1]) : sol.concat(other[j..-1])
     end
   end
 end

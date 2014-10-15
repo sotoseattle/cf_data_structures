@@ -67,11 +67,14 @@ describe 'Sortable' do
 
         it 'is benchmarked for awesomeness' do
           puts 'Best'
-          puts Benchmark.measure { (1..100_000).to_a.merge_sort }
+          x = (1..100_000).to_a
+          puts Benchmark.measure { x.merge_sort }
           puts 'Worst'
-          puts Benchmark.measure { 100_000.downto(1).to_a.merge_sort }
+          x = x.reverse
+          puts Benchmark.measure { x.to_a.merge_sort }
           puts 'Random'
-          puts Benchmark.measure { (1..100_000).to_a.shuffle.merge_sort }
+          x = x.shuffle
+          puts Benchmark.measure { x.merge_sort }
         end
       end
     end
