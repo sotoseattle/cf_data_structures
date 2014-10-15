@@ -37,39 +37,37 @@ module Sortable
     end
 
     def quick_sort
-      is_sorted = Array.new(size, false)
-      while (i = is_sorted.index(false))
-        j = i + 1
-        while j < size
-          compare_and_swap(i,j) unless is_sorted[j]
-          j += 1
-        end
-        is_sorted[i] = true
-        i += 1
+      return self if size < 2
+
+      i, j = 0, 1
+      while j < size
+        compare_and_swap(i,j)
+        j += 1
       end
-      self
+
+      self[0...i].quick_sort + [self[i]] + self[i+1..-1].quick_sort
     end
 
     private
 
-    def on_the_left_yet_bigger?(i, j)
-      j < i && self[j] > self[i]
+    def on_left_yet_bigger?(pivot, j)
+      j < pivot && self[j] > self[pivot]
     end
 
-    def on_the_right_yet_smaller?(i, j)
-      j > i && self[j] <= self[i]
+    def on_right_yet_smaller?(pivot, j)
+      j > pivot && self[j] <= self[pivot]
     end
 
-    def compare_and_swap(i, j)
-      if on_the_left_yet_bigger?(i, j) || on_the_right_yet_smaller?(i, j)
-        self[i], self[j] = self[j], self[i]
-        i, j = j, i
+    def compare_and_swap(pivot, j)
+      if on_left_yet_bigger?(pivot, j) || on_right_yet_smaller?(pivot, j)
+        self[pivot], self[j] = self[j], self[pivot]
+        pivot, j = j, pivot
       end
     end
   end
 end
 
-using Sortable
-p [4, 6, 3, 1, 5, 2].quick_sort
+# using Sortable
+# p [4, 6, 3, 1, 5, 2].quick_sort
 # a = [*1..1_000].shuffle.quick_sort
 # p a[0..10]
