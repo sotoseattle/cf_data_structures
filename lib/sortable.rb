@@ -1,6 +1,23 @@
 module Sortable
   refine Array do
 
+    # Enumerable method
+    def extrude(other)
+      return self unless other
+      sol = []
+      i, j = 0, 0
+      while self[i] && other[j]
+        if yield(self[i], other[j])
+          sol << self[i]
+          i += 1
+        else
+          sol << other[j]
+          j += 1
+        end
+      end
+      self[i] ? sol.concat(self[i..-1]) : sol.concat(other[j..-1])
+    end
+
     # Sorting methods
     def insert_sort
       reduce([]) do |acc, ele|
@@ -19,21 +36,40 @@ module Sortable
       wip.flatten
     end
 
-    # Enumerable method
-    def extrude(other)
-      return self unless other
-      sol = []
-      i, j = 0, 0
-      while self[i] && other[j]
-        if yield(self[i], other[j])
-          sol << self[i]
-          i += 1
-        else
-          sol << other[j]
+    def quick_sort
+      is_sorted = Array.new(size, false)
+      while (i = is_sorted.index(false))
+        j = i + 1
+        while j < size
+          compare_and_swap(i,j) unless is_sorted[j]
           j += 1
         end
+        is_sorted[i] = true
+        i += 1
       end
-      self[i] ? sol.concat(self[i..-1]) : sol.concat(other[j..-1])
+      self
+    end
+
+    private
+
+    def on_the_left_yet_bigger?(i, j)
+      j < i && self[j] > self[i]
+    end
+
+    def on_the_right_yet_smaller?(i, j)
+      j > i && self[j] <= self[i]
+    end
+
+    def compare_and_swap(i, j)
+      if on_the_left_yet_bigger?(i, j) || on_the_right_yet_smaller?(i, j)
+        self[i], self[j] = self[j], self[i]
+        i, j = j, i
+      end
     end
   end
 end
+
+using Sortable
+p [4, 6, 3, 1, 5, 2].quick_sort
+# a = [*1..1_000].shuffle.quick_sort
+# p a[0..10]
