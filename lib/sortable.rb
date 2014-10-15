@@ -9,13 +9,13 @@ module Sortable
 
     def merge_sort
       wip = each_slice(1).to_a
-      wip = wip.each_slice(2).map { |a, b| merge_arr(a, b) } while wip.size > 1
+      wip = wip.each_slice(2).map { |a, b| merge_sorted(a, b) } while wip.size > 1
       wip.flatten
     end
 
     private
 
-    def merge_arr(a, b)
+    def merge_sorted(a, b)
       return a unless b
       sol = []
       i, j = 0, 0
@@ -28,7 +28,7 @@ module Sortable
           j += 1
         end
       end
-      sol.concat(b[j..-1]).concat(a[i..-1])
+      a[i] ? sol.concat(a[i..-1]) : sol.concat(b[j..-1])
     end
   end
 end
