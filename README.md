@@ -14,7 +14,7 @@ This second part has been coded as an Array method, similar to an Enumerable ite
 This method is 30% slower than my previous version (without block passing). But the performance hit is still so small that, in the bigger scheme of things, this is small potatoes when compared with gaining a great new enumerable-like method to use with arrays.
 
 ```
-def extrude(other, &block)
+def extrude(other)
   return self unless other
   sol = []
   i, j = 0, 0
