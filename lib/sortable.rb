@@ -65,12 +65,12 @@ module Sortable
     def radix_level_sort(arr_to_sort, order_of_magnitude)
       bucket = Hash[[*0..9].map {|x| [x, Array.new]}]
       arr_to_sort.each do |str|
-        bucket[sig_digit(str, order_of_magnitude)] << str
+        bucket[significant_digit(str, order_of_magnitude)] << str
       end
       bucket.values.flatten
     end
 
-    def sig_digit(str, order_of_magnitude)
+    def significant_digit(str, order_of_magnitude)
       str.reverse[order_of_magnitude].to_i
     end
 
