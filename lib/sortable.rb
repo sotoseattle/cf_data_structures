@@ -53,34 +53,25 @@ module Sortable
     end
 
     def radix_sort
-      to_sort = arrify_by_single_digits
-
-      (0..."#{max}".length).each do |magnitude|
-        to_sort = radix_level_sort(to_sort, magnitude)
+      to_sort = map(&:to_s)
+      (0..."#{max}".length).each do |order_of_magnitude|
+        to_sort = radix_level_sort(to_sort, order_of_magnitude)
       end
-
-      to_sort.map { |a| a.join.to_i }
-    end
-
-    def sig_digit_at(order_of_magnitude)
-      reverse[order_of_magnitude].to_i
+      to_sort.map(&:to_i)
     end
 
     private
 
-    def radix_level_sort(arr_to_sort, magnitude)
-      buckets = Hash[[*0..9].map {|x| [x, Array.new]}]
-      arr_to_sort.each { |arr| buckets[arr.sig_digit_at(magnitude)] << arr }
-      buckets.values.flatten(1)
+    def radix_level_sort(arr_to_sort, order_of_magnitude)
+      bucket = Hash[[*0..9].map {|x| [x, Array.new]}]
+      arr_to_sort.each do |str|
+        bucket[sig_digit(str, order_of_magnitude)] << str
+      end
+      bucket.values.flatten
     end
 
-    def drain(bucket)
-      bucket.each_key { |k| bucket[k] = [] }
-      bucket
-    end
-
-    def arrify_by_single_digits
-      self.map { |n| n < 10 ? [n] : "#{n}".chars.map { |c| c.to_i} }
+    def sig_digit(str, order_of_magnitude)
+      str.reverse[order_of_magnitude].to_i
     end
 
     def to_the_left_yet_bigger?(pivot, comp)
@@ -92,6 +83,3 @@ module Sortable
     end
   end
 end
-
-# using Sortable
-# p [3,2,5,10,201,1].radix_sort
