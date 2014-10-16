@@ -39,17 +39,17 @@ module Sortable
     def quick_sort
       return self if size <= 1
 
-      self.shuffle!
-      i, j = 0, 1
+      self.shuffle! # fugly! would be better to => piv = rand(0...size)
+      piv, j = 0, 1
       while j < size
-        if to_the_left_yet_bigger?(i,j) || to_the_right_yet_smaller?(i,j)
-          self[i], self[j] = self[j], self[i]
-          i, j = j, i
+        if to_the_left_yet_bigger?(piv, j) || to_the_right_yet_smaller?(piv,j)
+          self[piv], self[j] = self[j], self[piv]
+          piv, j = j, piv
         end
         j += 1
       end
 
-      self[0...i].quick_sort + [self[i]] + self[i+1..-1].quick_sort
+      self[0...piv].quick_sort + [self[piv]] + self[piv+1..-1].quick_sort
     end
 
     private
