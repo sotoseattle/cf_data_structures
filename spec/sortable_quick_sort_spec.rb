@@ -27,17 +27,9 @@ describe 'Sortable' do
       require 'minitest/benchmark'
       require 'benchmark'
       if ENV['BENCH']
-        # bench_performance_constant 'quick_sort ORDERED', 0.9999 do |_n|
-        #   100.times { input.quick_sort }
-        # end
-
-        # bench_performance_constant 'quick_sort RANDOM', 0.9999 do |_n|
-        #   100.times { input.shuffle.quick_sort }
-        # end
-
-        # bench_performance_constant 'quick_sort REVERSED', 0.9999 do |_n|
-        #   100.times { input.reverse.quick_sort }
-        # end
+        bench_performance_constant 'quick_sort RANDOM', 0.9999 do |_n|
+          100.times { input.shuffle.quick_sort }
+        end
 
         it 'is benchmarked for awesomeness' do
           puts 'Best'

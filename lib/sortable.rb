@@ -39,11 +39,10 @@ module Sortable
     def quick_sort
       return self if size <= 1
 
+      self.shuffle!
       i, j = 0, 1
-      j = 0
       while j < size
-        if (j < i and self[j] > self[i]) ||
-           (i < j and self[i] > self[j])
+        if to_the_left_yet_bigger?(i,j) || to_the_right_yet_smaller?(i,j)
           self[i], self[j] = self[j], self[i]
           i, j = j, i
         end
@@ -51,6 +50,16 @@ module Sortable
       end
 
       self[0...i].quick_sort + [self[i]] + self[i+1..-1].quick_sort
+    end
+
+    private
+
+    def to_the_left_yet_bigger?(pivot, comp)
+      comp < pivot && self[comp] > self[pivot]
+    end
+
+    def to_the_right_yet_smaller?(pivot, comp)
+      pivot < comp && self[pivot] > self[comp]
     end
   end
 end
