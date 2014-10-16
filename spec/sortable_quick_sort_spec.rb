@@ -23,26 +23,26 @@ describe 'Sortable' do
       it { [7, 5, 5, 5, 5, 1, 2].quick_sort.must_equal [1, 2, 5, 5, 5, 5, 7] }
     end
 
-    describe 'quick_sort benchmarking' do
-      require 'minitest/benchmark'
-      require 'benchmark'
-      if ENV['BENCH']
-        bench_performance_constant 'quick_sort RANDOM', 0.9999 do |_n|
-          100.times { input.shuffle.quick_sort }
-        end
+    # describe 'quick_sort benchmarking' do
+    #   require 'minitest/benchmark'
+    #   require 'benchmark'
+    #   if ENV['BENCH']
+    #     bench_performance_constant 'quick_sort RANDOM', 0.9999 do |_n|
+    #       100.times { input.shuffle.quick_sort }
+    #     end
 
-        it 'is benchmarked for awesomeness' do
-          puts 'Best'
-          x = (1..100_000).to_a
-          puts Benchmark.measure { x.quick_sort }
-          puts 'Worst'
-          x = x.reverse
-          puts Benchmark.measure { x.quick_sort }
-          puts 'Random'
-          x = x.shuffle
-          puts Benchmark.measure { x.quick_sort }
-        end
-      end
-    end
+    #     it 'is benchmarked for awesomeness' do
+    #       puts 'Best'
+    #       x = (1..100_000).to_a
+    #       puts Benchmark.measure { x.quick_sort }
+    #       puts 'Worst'
+    #       x = x.reverse
+    #       puts Benchmark.measure { x.quick_sort }
+    #       puts 'Random'
+    #       x = x.shuffle
+    #       puts Benchmark.measure { x.quick_sort }
+    #     end
+    #   end
+    # end
   end
 end
