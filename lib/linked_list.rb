@@ -8,13 +8,13 @@ class Node
     @val = val
   end
 
+  def point_to(other)
+    @next = other
+  end
+
   def detach
     @next = nil
     val
-  end
-
-  def point_to(other)
-    @next = other
   end
 
   def to_s
@@ -27,7 +27,12 @@ class Node
 end
 
 class LinkedList
+  private
+
   attr_accessor :head
+
+  public
+
   attr_reader :traversor
 
   def initialize
@@ -35,7 +40,7 @@ class LinkedList
     @traversor = Enumerator.new do |y|
       node = head
       while node
-        y.yield(node)
+        y << node
         node = node.next
       end
     end
