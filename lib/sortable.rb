@@ -42,14 +42,14 @@ module Sortable
       self.shuffle! # fugly! would be better to => piv = rand(0...size)
       piv, j = 0, 1
       while j < size
-        if to_the_left_yet_bigger?(piv, j) || to_the_right_yet_smaller?(piv,j)
+        if to_the_left_yet_bigger?(piv, j) || to_the_right_yet_smaller?(piv, j)
           self[piv], self[j] = self[j], self[piv]
           piv, j = j, piv
         end
         j += 1
       end
 
-      self[0...piv].quick_sort + [self[piv]] + self[piv+1..-1].quick_sort
+      self[0...piv].quick_sort + [self[piv]] + self[piv + 1..-1].quick_sort
     end
 
     def radix_sort
@@ -63,7 +63,7 @@ module Sortable
     private
 
     def radix_level_sort(arr_to_sort, order_of_magnitude)
-      bucket = Hash[[*0..9].map {|x| [x, Array.new]}]
+      bucket = Hash[[*0..9].map { |x| [x, Array.new] }]
       arr_to_sort.each do |str|
         bucket[significant_digit(str, order_of_magnitude)] << str
       end

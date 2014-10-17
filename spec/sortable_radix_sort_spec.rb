@@ -11,7 +11,7 @@ describe 'Sortable' do
       it { input.shuffle.radix_sort.must_equal sorted }
       it { input.reverse.radix_sort.must_equal sorted }
       it 'few elements yet repeated many times' do
-        repeat_sorted = [[1]*250, [2]*250, [3]*250, [4]*250].flatten
+        repeat_sorted = [[1] * 250, [2] * 250, [3] * 250, [4] * 250].flatten
         repeat_input = repeat_sorted.shuffle
         repeat_input.radix_sort.must_equal repeat_sorted
       end

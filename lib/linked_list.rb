@@ -31,20 +31,20 @@ class LinkedList
   end
 
   def remove(node)
-    if first == node
-      self.head = node.next
-      return node.detach
-    end
-
+    prev = nil
     traversor.each do |n|
-      if n.next == node
-        n.next = node.next
+      if n == node
+        if prev
+          prev.next = node.next
+        else
+          self.head = node.next
+        end
         return node.detach
       end
+      prev = n
     end
     nil
   end
-
 
   def last
     traversor.to_a.last
@@ -53,5 +53,4 @@ class LinkedList
   def first
     traversor.to_a.first
   end
-
 end
