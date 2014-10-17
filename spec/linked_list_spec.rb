@@ -28,21 +28,21 @@ describe LinkedList do
     it 'remove the tail' do
       ll.remove(n1)
       ll.size.must_equal 2
-      ll.last.must_equal n2
-      ll.last.next.must_equal nil
+      ll.to_a.last.must_equal n2
+      ll.to_a.last.next.must_equal nil
     end
 
     it 'remove the middle one' do
       ll.remove(n2)
       ll.size.must_equal 2
-      ll.first.next.must_equal n1
+      ll.to_a.first.next.must_equal n1
     end
 
     it 'remove the head' do
       ll.remove(n3)
       ll.size.must_equal 2
-      ll.first.must_equal n2
-      ll.first.next.must_equal n1
+      ll.to_a.first.must_equal n2
+      ll.to_a.first.next.must_equal n1
     end
 
     it 'remove 404' do
@@ -68,8 +68,9 @@ describe LinkedList do
   end
 
   describe 'LinkedList#to_s' do
-    # given a LL with n nodes
-    # when I tranform it into a string
-    # then a string is returned in CSV format
+    it 'outputs to CSV with jsonified objects' do
+      ll.insert(Node.new(42)).insert(Node.new(:item))
+      ll.to_s.must_equal "\"item\", 42, \"third\", \"second\", \"first\""
+    end
   end
 end

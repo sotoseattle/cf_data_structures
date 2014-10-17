@@ -1,4 +1,30 @@
-require_relative './node'
+require 'json'
+
+class Node
+  attr_reader :val, :next
+
+  def initialize(val = nil)
+    @next = nil
+    @val = val
+  end
+
+  def detach
+    @next = nil
+    val
+  end
+
+  def point_to(other)
+    @next = other
+  end
+
+  def to_s
+    val.to_json
+  end
+
+  private
+
+  attr_writer :val, :next
+end
 
 class LinkedList
   attr_accessor :head
@@ -21,7 +47,9 @@ class LinkedList
   end
 
   def insert(node)
-    self.head, node.next = node, head
+    temp = head
+    self.head = node
+    node.point_to(temp)
     self
   end
 
@@ -34,11 +62,7 @@ class LinkedList
     prev = nil
     traversor.each do |n|
       if n == node
-        if prev
-          prev.next = node.next
-        else
-          self.head = node.next
-        end
+        prev ? prev.point_to(node.next) : @head = node.next
         return node.detach
       end
       prev = n
@@ -46,11 +70,11 @@ class LinkedList
     nil
   end
 
-  def last
-    traversor.to_a.last
+  def to_s
+    traversor.map(&:to_s).join(', ')
   end
 
-  def first
-    traversor.to_a.first
+  def to_a
+    traversor.to_a
   end
 end
