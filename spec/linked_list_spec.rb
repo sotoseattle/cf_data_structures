@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe LinkedList do
   let(:ll_0) { LinkedList.new }
+  let(:n1) { Node.new('first') }
+  let(:n2) { Node.new('second') }
+  let(:n3) { Node.new('third') }
+  let(:ll) { ll_0.insert(n1).insert(n2).insert(n3) }
 
   describe 'LinkedList#size' do
     it { ll_0.size.must_equal 0 }
@@ -13,11 +17,6 @@ describe LinkedList do
   end
 
   describe 'LinkedList#search' do
-    let(:n1) { Node.new('first') }
-    let(:n2) { Node.new('second') }
-    let(:n3) { Node.new('third') }
-    let(:ll) { ll_0.insert(n1).insert(n2).insert(n3) }
-
     it { ll.search('first').must_equal n1 }
     it { ll.search('second').must_equal n2 }
     it { ll.search('third').must_equal n3 }
@@ -26,11 +25,46 @@ describe LinkedList do
   end
 
   describe 'LinkedList#remove' do
-    # given a LL with n nodes
-    # when I remove a node
-    # the node is deleted from the list
-    # and the val is returned
-    # or nil if not found
+    it 'remove the tail' do
+      ll.remove(n1)
+      ll.size.must_equal 2
+      ll.last.must_equal n2
+      ll.last.next.must_equal nil
+    end
+
+    it 'remove the middle one' do
+      ll.remove(n2)
+      ll.size.must_equal 2
+      ll.first.next.must_equal n1
+    end
+
+    it 'remove the head' do
+      ll.remove(n3)
+      ll.size.must_equal 2
+      ll.first.must_equal n2
+      ll.first.next.must_equal n1
+    end
+
+    it 'remove 404' do
+      n4 = Node.new
+      x = ll.remove(n4)
+      ll.size.must_equal 3
+      x.must_equal nil
+    end
+
+    it 'remove from empty list' do
+      l = LinkedList.new
+      x = l.remove(n1)
+      l.size.must_equal 0
+      x.must_equal nil
+    end
+
+    it 'remove from single-noded list' do
+      l = LinkedList.new.insert(n1)
+      x = l.remove(n1)
+      l.size.must_equal 0
+      x.must_equal 'first'
+    end
   end
 
   describe 'LinkedList#to_s' do

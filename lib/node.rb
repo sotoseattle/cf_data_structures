@@ -5,4 +5,9 @@ class Node
     @next = nil
     @val = val
   end
+
+  def detach
+    @next = nil
+    @val
+  end
 end
