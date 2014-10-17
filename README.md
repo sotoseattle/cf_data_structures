@@ -4,6 +4,8 @@
 
 ### I. Linked List
 
+#### As a Linked List of Nodes
+
 I use an ad-hoc class for nodes with a very simple design:
 
 * A node holds only a value and a link to the next node
@@ -13,7 +15,7 @@ I use an ad-hoc class for nodes with a very simple design:
     * **next** => returns the next node it points to, or nil if none
     * **point_to**(another_node) => make the node point to another one
     * **detach** => make it point to nil, so it can be GC
-    * **to_s** => returns the held value in json format
+    * **to_s** => returns the held value as a string
 * Only a node can change himself the value it holds or to where it points to
 
 Of mention is the fact that when we detach a node, it returns the value it holds. This is a small utility behavior that simplifies the code of the linked list.
@@ -41,7 +43,7 @@ The public interface consists of:
 * **insert(node)** => at head (LIFO)
 * **serch(node)** => returns val or nil if not found
 * **remove(node)** => detaches node and bridges between pre and post nodes
-* **to_s** => returns a string of jsonified values
+* **to_s** => returns a string of nodes' values
 * **to_a** => returns an array of nodes
 
 The initiliazer returns self so we can chain methods.
@@ -57,6 +59,22 @@ end
 ```
 
 The rest of methods are self-explanatory.
+
+#### As Nodes Linked
+
+Instead of having a List object, we just have nodes pointing to nodes.
+Self explanatory and very similar to the previous.
+We create our own traversor and use it extensively.
+
+```ruby
+def walk(&block)
+  n = self
+  while n
+    yield(n)
+    n = n.nexxt
+  end
+end
+```
 
 ## SORTING ALGORITHMS
 

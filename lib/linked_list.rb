@@ -1,29 +1,27 @@
-require 'json'
-
 class Node
-  attr_reader :val, :next
+  attr_reader :val, :nexxt
 
   def initialize(val = nil)
-    @next = nil
+    @nexxt = nil
     @val = val
   end
 
   def point_to(other)
-    @next = other
+    @nexxt = other
   end
 
   def detach
-    @next = nil
+    @nexxt = nil
     val
   end
 
   def to_s
-    val.to_json
+    val.to_s
   end
 
   private
 
-  attr_writer :val, :next
+  attr_writer :val, :nexxt
 end
 
 class LinkedList
@@ -41,7 +39,7 @@ class LinkedList
       node = head
       while node
         y << node
-        node = node.next
+        node = node.nexxt
       end
     end
     self
@@ -67,7 +65,7 @@ class LinkedList
     prev = nil
     traversor.each do |n|
       if n == node
-        prev ? prev.point_to(node.next) : @head = node.next
+        prev ? prev.point_to(node.nexxt) : @head = node.nexxt
         return node.detach
       end
       prev = n
