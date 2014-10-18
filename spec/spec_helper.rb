@@ -1,4 +1,4 @@
 require 'minitest/autorun'
 require 'sortable'
-require 'linked_list'
-require 'node_linked_list'
+require './lib/linked_list/linked_list'
+require './lib/linked_list/node_linked_list'
