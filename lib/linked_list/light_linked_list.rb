@@ -74,4 +74,3 @@ end
 # ll.insert(a)
 # p ll.size
 # p ll.remove(c)
-

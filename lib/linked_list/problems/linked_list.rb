@@ -1,6 +1,8 @@
 require '../light_linked_list'
 
+# Solving problems of Linked Lists from Stanford
 # http://cslibrary.stanford.edu/105/LightLinkedListProblems.pdf
+# Use only the API of the Light Linked List so it is comparable
 
 # 1.- Write a Count() function that counts the number of times a given int occurs in a list.
 # The code for this has the classic list traversal structure as demonstrated in Length().
@@ -9,16 +11,14 @@ def abc
   [Node.new('A'), Node.new('B'), Node.new('C')]
 end
 
-def setup(a,b,c)
+def setup(arr_of_nodes)
   ll = LightLinkedList.new
-  ll.insert(c)
-  ll.insert(b)
-  ll.insert(a)
+  ll.insert(arr_of_nodes.pop) until arr_of_nodes.empty?
   ll
 end
 
-a,b,c = abc
-ll = setup(a,b,c)
+a, b, c = abc
+ll = setup([a, b, c])
 
 class LightLinkedList
   def count(node)
@@ -32,7 +32,7 @@ class LightLinkedList
   end
 end
 
-puts "count" + "_"*40
+puts 'count' + '_' * 40
 p "#{ll.count(b)} == 1"
 
 # 2.- Write a GetNth() function that takes a linked list and an integer index and
@@ -51,7 +51,7 @@ class LightLinkedList
   end
 end
 
-puts "get_nth" + "_"*40
+puts 'get_nth' + '_' * 40
 p "#{ll.get_nth(1)} == #{b}"
 
 # 3.- Write a function DeleteList() that takes a list, deallocates all of its
@@ -69,7 +69,7 @@ class LightLinkedList
 end
 
 ll.delete_list
-puts "delete_list" + "_"*40
+puts 'delete_list' + '_' * 40
 p "#{ll.head.class} == nil"
 p "#{ll.size} == 0"
 
@@ -81,14 +81,14 @@ class LightLinkedList
     t = head
     @head = head.nexxt
     t.nexxt = nil
-    return t
+    t
   end
 end
 
-a,b,c = abc
-ll = setup(a,b,c)
+a, b, c = abc
+ll = setup([a, b, c])
 x = ll.pop
-puts "pop" + "_"*40
+puts 'pop' + '_' * 40
 p "#{x.val} == A"
 p "#{ll.size} == 2"
 
@@ -114,11 +114,11 @@ class LightLinkedList
   end
 end
 
-a,b,c = abc
-ll = setup(a,b,c)
+a, b, c = abc
+ll = setup([a, b, c])
 d = Node.new('D')
 ll.insert_at(d, 1)
-puts "insert_at" + "_"*40
+puts 'insert_at' + '_' * 40
 p "#{ll.get_nth(1)} == D"
 p "#{ll.get_nth(0).nexxt} == D"
 p "#{ll.get_nth(1).nexxt} == B"
@@ -144,10 +144,10 @@ class LightLinkedList
   end
 end
 
-a,b,c = abc
+a, b, c = abc
 d = Node.new('D')
-ll = setup(a,b,d)
-puts "sorted_insert" + "_"*40
+ll = setup([a, b, d])
+puts 'sorted_insert' + '_' * 40
 p "sorted [#{ll}] inserting C"
 ll.sorted_insert(c)
 p "sorted [#{ll}] inserted C == [A, B, C, D]"
@@ -157,47 +157,35 @@ p "#{ll.size} == 4"
 # they are sorted in increasing order.
 
 class LightLinkedList
+  def insert_sort
+    return if size < 2
+    end_sorted = head
 
-  def insert_sort(node)
-    # prev = nil
-    # n = head
-    # while n
-    #   swap if n.next < n
+    (size - 2).times do
+      x0 = head
+      x1 = head.nexxt
 
-    #   prev = n
-    #   n = n.nexxt
-    # end
+      n = end_sorted.nexxt
+      while x1
+        if n.val < x1.val
+          x0.nexxt = n
+          n.nexxt = x1
+          end_sorted = n if end_sorted != x1
+          break
+        end
+        x0 = x1
+        x1 = x1.nexxt
+        break if x1 == end_sorted
+      end
+
+    end
   end
 end
 
-a,b,c = abc
+a, b, c = abc
 d = Node.new('D')
-ll = setup(d,b,a,c)
-puts "insert_sort" + "_"*40
+ll = setup([d, b, a, c])
+puts 'insert_sort' + '_' * 40
 p "unsorted [#{ll}]"
 ll.insert_sort
 p "sorted [#{ll}] == [A, B, C, D]"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
