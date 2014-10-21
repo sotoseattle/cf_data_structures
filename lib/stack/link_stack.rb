@@ -8,7 +8,7 @@ class LinkStack < LightLinkedList
   end
 
   def pop
-    fail RuntimeError.new('EmptyStackError') unless head
+    fail 'EmptyStackError' unless head
     remove(head)
   end
 end

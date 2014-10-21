@@ -8,7 +8,7 @@ class LinkQueue < LightLinkedList
   end
 
   def dequeue
-    fail RuntimeError.new('EmptyStackError') unless head
+    fail 'EmptyStackError' unless head
     n = head
     n = n.nexxt while n.nexxt
     remove n

@@ -6,7 +6,7 @@ class Node
   end
 
   def to_s
-    val.to_s
+    self >= val
   end
 end
 
