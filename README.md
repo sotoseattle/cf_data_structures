@@ -2,7 +2,41 @@
 
 ## DATA STRUCTS
 
-### I. Stack
+### I. Queue
+
+My Queue inherits from Light Linked List, which simplifies the code tremendously.
+
+The Light Linked List is the simplest Linked List that uses both Nodes and Linked List objects ().
+
+The Queue's enqueue method is analogous to the insert method with a small difference, we insert stuff into the Stack, not Nodes. So we wrap the stuff into a Node in the enqueue method prior to inserting this wrapper Node.
+
+```ruby
+def enqueue(val)
+  insert(Node.new(val))
+end
+```
+
+The dequeue method is also analogous to remove, we just need to specify inside our method that the node we remove is the tail. To do this we literally run down the chain until the last node, which we remove.
+
+```ruby
+def dequeue
+  fail RuntimeError.new('EmptyStackError') unless head
+  n = head
+  n = n.nexxt while n.nexxt
+  remove n
+end
+```
+
+Finally, I made the inherited insert and remove methods protected so they cannot be access by mistake in the Queue, and the API is coherent.
+
+```ruby
+class Queue < LightLinkedList
+  protected :insert, :remove
+  ...
+end
+```
+
+### II. Stack
 
 My Stack inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -34,7 +68,7 @@ class Stack < LightLinkedList
 end
 ```
 
-### II. Linked List
+### III. Linked List
 
 #### As a Linked List of Nodes
 
