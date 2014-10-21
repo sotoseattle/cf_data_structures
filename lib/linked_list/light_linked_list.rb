@@ -18,7 +18,8 @@ class LightLinkedList
   end
 
   def insert(node)
-    node.nexxt = head
+    existing_node = head
+    node.nexxt = existing_node
     @head = node
   end
 

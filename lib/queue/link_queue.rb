@@ -1,14 +1,16 @@
 require_relative '../linked_list/light_linked_list'
 
-class Stack < LightLinkedList
+class LinkQueue < LightLinkedList
   protected :insert, :remove
 
-  def push(datum)
-    insert(Node.new(datum))
+  def enqueue(val)
+    insert(Node.new(val))
   end
 
-  def pop
+  def dequeue
     fail RuntimeError.new('EmptyStackError') unless head
-    remove(head)
+    n = head
+    n = n.nexxt while n.nexxt
+    remove n
   end
 end

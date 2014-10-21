@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe Stack do
-  let(:empty_s) { Stack.new }
+describe LinkStack do
+  let(:empty_s) { LinkStack.new }
   let(:s) do
-    s = Stack.new
+    s = LinkStack.new
     s.push(23)
     s.push('24')
     s.push(0)
     s
   end
 
-  describe 'StackLinked#push' do
+  describe 'LinkStackLinked#push' do
     it 'inserts in an empty stack' do
       empty_s.push(23)
       empty_s.size.must_equal 1
@@ -23,7 +23,7 @@ describe Stack do
     end
   end
 
-  describe 'StackLinked#pop' do
+  describe 'LinkStackLinked#pop' do
     it 'returns the element data' do
       s.pop.must_equal 0
     end
