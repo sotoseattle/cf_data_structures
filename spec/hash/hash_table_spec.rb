@@ -91,7 +91,7 @@ describe HashTable do
   describe 'volumen test' do
     let(:huge_table) do
       huge_table = HashTable.new(100_000)
-      File.open('/usr/share/dict/words', 'r') do |f|
+      File.open('./spec/hash/words', 'r') do |f|
         f.each_line do |line|
           w = line.strip.chomp
           huge_table.set(w, w.reverse)
