@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-require 'rake'
+gem 'rake'
