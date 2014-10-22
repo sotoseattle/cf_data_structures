@@ -6,7 +6,7 @@ class Node
   end
 
   def to_s
-    self >= val
+    val.to_s
   end
 end
 
@@ -15,12 +15,14 @@ class LightLinkedList
 
   def initialize(node = nil)
     @head = node
+    self
   end
 
   def insert(node)
     existing_node = head
     node.nexxt = existing_node
     @head = node
+    self
   end
 
   def search(value)

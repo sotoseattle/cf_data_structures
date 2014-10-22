@@ -16,7 +16,7 @@ class Node
   end
 
   def to_s
-    self >= val
+    val.to_s
   end
 
   private
