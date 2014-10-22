@@ -19,11 +19,11 @@ class HashTable < Array
     end
   end
 
+  private
+
   def hash(key)
     key.chars.map(&:ord).reduce(:+)
   end
-
-  private
 
   def position(str)
     hash(str) % size

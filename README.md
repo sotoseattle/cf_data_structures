@@ -2,7 +2,45 @@
 
 ## DATA STRUCTS
 
-### I. Queue
+### I. Hash
+
+My HashTable inherits from Array and initializes to an intial fixed size.
+
+It uses two classes from this package:
+
+1- Linked Lists. It stores in its cells Linked Lists (LightLinkedList).
+2- The lists are comprised of mutated Nodes (NodePlus) that inherit from Node and which hold as the Node.val the key (string), and as the Node.holds the actual value associated with the key. This NodePlus class is private and unseen from outside the HashTable class.
+
+```ruby
+class NodePlus < Node
+  attr_reader :holds
+  def initialize(key, value)
+    @holds = value
+    super(key)
+  end
+end
+```
+
+The public API is based on only two methods set and get.
+
+We have an additional two private methods: one computes the position in the array based on the key.
+The other computes the hash function. I have made this last one private because I don't see what goal it serves to make it publicly accessibe.
+
+```ruby
+private
+
+def hash(key)
+  key.chars.map(&:ord).reduce(:+)
+end
+
+def position(str)
+  hash(str) % size
+end
+```
+
+I include the usual unit tests and an additional volume test based on the over 250,000 words from the file '/usr/share/dict/words'.'
+
+### II. Queue
 
 My Queue inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -36,7 +74,7 @@ class Queue < LightLinkedList
 end
 ```
 
-### II. Stack
+### III. Stack
 
 My Stack inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -68,7 +106,7 @@ class Stack < LightLinkedList
 end
 ```
 
-### III. Linked List
+### IV. Linked List
 
 #### As a Linked List of Nodes
 

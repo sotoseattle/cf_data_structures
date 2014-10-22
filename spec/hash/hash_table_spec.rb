@@ -12,11 +12,11 @@ describe HashTable do
 
   describe 'HashTable#hash' do
     it 'computes the right number as hash function' do
-      empty_h_10.hash('pepe').must_equal 426
-      empty_h_10.hash('epep').must_equal 426
-      empty_h_10.hash('eepp').must_equal 426
-      empty_h_10.hash('ppee').must_equal 426
-      empty_h_10.hash('pee').wont_equal 426
+      empty_h_10.send(:hash, 'pepe').must_equal 426
+      empty_h_10.send(:hash, 'epep').must_equal 426
+      empty_h_10.send(:hash, 'eepp').must_equal 426
+      empty_h_10.send(:hash, 'ppee').must_equal 426
+      empty_h_10.send(:hash, 'pee').wont_equal 426
     end
   end
 
@@ -30,7 +30,7 @@ describe HashTable do
     it 'sets the element in an empty spot' do
       key = 'pepe'
       empty_h_10.set(key, 42)
-      i = empty_h_10.hash(key) % empty_h_10.size
+      i = empty_h_10.send(:hash, key) % empty_h_10.size
       ll = empty_h_10[i]
       ll.must_be_kind_of LightLinkedList
       ll.head.val.must_equal 'pepe'
@@ -41,9 +41,7 @@ describe HashTable do
       empty_h_10.set('pepe', 42)
       empty_h_10.set('epep', 24)
       empty_h_10.set('eepp', 0)
-
-      i = empty_h_10.hash('pepe') % empty_h_10.size
-
+      i = empty_h_10.send(:hash, 'pepe') % empty_h_10.size
       ll = empty_h_10[i]
       ll.must_be_kind_of LightLinkedList
       ll.head.holds.must_equal 0
@@ -87,6 +85,25 @@ describe HashTable do
       it 'when there are a multiple nodes in the list and key is in the middle' do
         ht.get('eepp').must_equal 1
       end
+    end
+  end
+
+  describe 'volumen test' do
+    let(:huge_table) do
+      huge_table = HashTable.new(100_000)
+      File.open('/usr/share/dict/words', 'r') do |f|
+        f.each_line do |line|
+          w = line.strip.chomp
+          huge_table.set(w, w.reverse)
+        end
+      end
+      huge_table
+    end
+
+    it 'crams over 250,000 words inside an array of size 100,000' do
+      huge_table.get('pear').must_equal 'raep'
+      huge_table.get('colibri').must_equal 'colibri'.reverse
+      huge_table.get('collibri').wont_equal 'collibri'.reverse
     end
   end
 end
