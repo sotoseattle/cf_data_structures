@@ -1,5 +1,7 @@
 # Data Structures and Algorithms
 
+![](https://travis-ci.org/sotoseattle/data-structures.svg)
+
 ## DATA STRUCTS
 
 ### I. Hash
