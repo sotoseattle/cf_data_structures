@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+class KeyHashTableError < ArgumentError; end
+
 describe HashTable do
   let(:empty_h_10) { HashTable.new(10) }
 
@@ -22,9 +24,7 @@ describe HashTable do
 
   describe 'HashTable#set' do
     it 'raises error if key is not a string' do
-      assert_raises RuntimeError do
-        empty_h_10.set(0, 'something')
-      end
+      proc { empty_h_10.set(0, 'something') }.must_raise KeyHashTableError
     end
 
     it 'sets the element in an empty spot' do

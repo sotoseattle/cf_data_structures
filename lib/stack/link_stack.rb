@@ -1,5 +1,7 @@
 require_relative '../linked_list/light_linked_list'
 
+class EmptyStackError < RuntimeError; end
+
 class LinkStack < LightLinkedList
   protected :insert, :remove
 
@@ -8,7 +10,7 @@ class LinkStack < LightLinkedList
   end
 
   def pop
-    fail 'EmptyStackError' unless head
+    fail EmptyStackError unless head
     remove(head)
   end
 end

@@ -43,9 +43,7 @@ describe LinkStack do
     end
 
     it 'throws exception if stack is already empty' do
-      assert_raises RuntimeError do
-        empty_s.pop
-      end
+      proc { empty_s.pop } .must_raise EmptyStackError
     end
   end
 end

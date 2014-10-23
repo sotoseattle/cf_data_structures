@@ -10,7 +10,7 @@ class HashTable < Array
   end
 
   def set(key, val)
-    fail 'Shoot!, that key is not a string' unless key.is_a? String
+    fail KeyHashTableError unless key.is_a? String
     index = position(key)
     if self[index]
       self[index].insert(NodePlus.new(key, val))
