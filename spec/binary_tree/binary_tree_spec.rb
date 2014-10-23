@@ -20,15 +20,15 @@ describe BinaryTree do
       tim
     end
 
-    it 'BinaryTree#search_pre_order' do
+    it 'BinaryTree#traverse_pre_order' do
       bt.traverse_pre_order.must_equal %w[Tim Jony Dan Katie Peter Andrea Phil Craig Eddie]
     end
 
-    it 'BinaryTree#search_in_order' do
+    it 'BinaryTree#traverse_in_order' do
       bt.traverse_in_order.must_equal %w[Dan Jony Peter Katie Andrea Tim Craig Phil Eddie]
     end
 
-    it 'BinaryTree#search_post_order' do
+    it 'BinaryTree#traverse_post_order' do
       bt.traverse_post_order.must_equal %w[Dan Peter Andrea Katie Jony Craig Eddie Phil Tim]
     end
   end

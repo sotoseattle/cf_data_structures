@@ -4,7 +4,49 @@
 
 ## DATA STRUCTS
 
-### I. Hash
+### I. Binary Tree Traversal
+
+Not BST, but normal Binary Trees. Here we explore 3 depth-first traversal methods to walk a tree.
+
+To simplify things we make BT as simple nodes as we used them in the Light Linked List, with two links instead of one.
+
+The recursive nature for traversing the tree is the same in all cases: if able keep on exploring down the side of the tree.
+
+```ruby
+left.traverse_pre_order if left
+right.traverse_pre_order if right
+```
+
+The only thing that changes is where we 'pick' the val of the node (or examine the node): before, in between or after both recursive calls.
+We wrap this in an array, path, so we can see the path walked along the tree.
+
+```ruby
+def traverse_pre_order
+  path = [val]
+  path += left.traverse_pre_order if left
+  path += right.traverse_pre_order if right
+  path
+end
+
+def traverse_in_order
+  path = []
+  path += left.traverse_in_order if left
+  path << val
+  path += right.traverse_in_order if right
+  path
+end
+
+def traverse_post_order
+  path = []
+  path += left.traverse_post_order if left
+  path += right.traverse_post_order if right
+  path << val
+end
+```
+
+The test includes a hardwired tree on which we test the methods.
+
+### II. Hash
 
 My HashTable inherits from Array and initializes to an intial fixed size.
 
@@ -42,7 +84,7 @@ end
 
 I include the usual unit tests and an additional volume test based on the over 250,000 words from the file '/usr/share/dict/words'.'
 
-### II. Queue
+### III. Queue
 
 My Queue inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -76,7 +118,7 @@ class Queue < LightLinkedList
 end
 ```
 
-### III. Stack
+### IV. Stack
 
 My Stack inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -108,7 +150,7 @@ class Stack < LightLinkedList
 end
 ```
 
-### IV. Linked List
+### V. Linked List
 
 #### As a Linked List of Nodes
 

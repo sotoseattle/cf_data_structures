@@ -6,29 +6,25 @@ class BinaryTree < Node
     @left = @right = nil
   end
 
-  def to_s
-    "#{val}[#{left}, #{right}]"
-  end
-
   def traverse_pre_order
-    sol = [val]
-    sol += left.traverse_pre_order if left
-    sol += right.traverse_pre_order if right
-    sol
+    path = [val]
+    path += left.traverse_pre_order if left
+    path += right.traverse_pre_order if right
+    path
   end
 
   def traverse_in_order
-    sol = []
-    sol += left.traverse_in_order if left
-    sol << val
-    sol += right.traverse_in_order if right
-    sol
+    path = []
+    path += left.traverse_in_order if left
+    path << val
+    path += right.traverse_in_order if right
+    path
   end
 
   def traverse_post_order
-    sol = []
-    sol += left.traverse_post_order if left
-    sol += right.traverse_post_order if right
-    sol << val
+    path = []
+    path += left.traverse_post_order if left
+    path += right.traverse_post_order if right
+    path << val
   end
 end
