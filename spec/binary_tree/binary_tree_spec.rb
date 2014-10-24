@@ -21,15 +21,15 @@ describe BinaryTree do
     end
 
     it 'BinaryTree#traverse_pre_order' do
-      bt.traverse_pre_order.must_equal %w[Tim Jony Dan Katie Peter Andrea Phil Craig Eddie]
+      proc { bt.traverse_pre_order }.must_output "Tim\nJony\nDan\nKatie\nPeter\nAndrea\nPhil\nCraig\nEddie\n"
     end
 
     it 'BinaryTree#traverse_in_order' do
-      bt.traverse_in_order.must_equal %w[Dan Jony Peter Katie Andrea Tim Craig Phil Eddie]
+      proc { bt.traverse_in_order }.must_output "Dan\nJony\nPeter\nKatie\nAndrea\nTim\nCraig\nPhil\nEddie\n"
     end
 
     it 'BinaryTree#traverse_post_order' do
-      bt.traverse_post_order.must_equal %w[Dan Peter Andrea Katie Jony Craig Eddie Phil Tim]
+      proc { bt.traverse_post_order }.must_output "Dan\nPeter\nAndrea\nKatie\nJony\nCraig\nEddie\nPhil\nTim\n"
     end
   end
 end

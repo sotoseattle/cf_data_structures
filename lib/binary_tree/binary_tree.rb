@@ -7,24 +7,20 @@ class BinaryTree < Node
   end
 
   def traverse_pre_order
-    path = [val]
-    path += left.traverse_pre_order if left
-    path += right.traverse_pre_order if right
-    path
+    puts val
+    left.traverse_pre_order if left
+    right.traverse_pre_order if right
   end
 
   def traverse_in_order
-    path = []
-    path += left.traverse_in_order if left
-    path << val
-    path += right.traverse_in_order if right
-    path
+    left.traverse_in_order if left
+    puts val
+    right.traverse_in_order if right
   end
 
   def traverse_post_order
-    path = []
-    path += left.traverse_post_order if left
-    path += right.traverse_post_order if right
-    path << val
+    left.traverse_post_order if left
+    right.traverse_post_order if right
+    puts val
   end
 end
