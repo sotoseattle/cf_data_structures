@@ -22,29 +22,51 @@ We wrap this in an array, path, so we can see the path walked along the tree.
 
 ```ruby
 def traverse_pre_order
-  path = [val]
-  path += left.traverse_pre_order if left
-  path += right.traverse_pre_order if right
-  path
+  puts val
+  left.traverse_pre_order if left
+  right.traverse_pre_order if right
 end
 
 def traverse_in_order
-  path = []
-  path += left.traverse_in_order if left
-  path << val
-  path += right.traverse_in_order if right
-  path
+  left.traverse_in_order if left
+  puts val
+  right.traverse_in_order if right
 end
 
 def traverse_post_order
-  path = []
-  path += left.traverse_post_order if left
-  path += right.traverse_post_order if right
-  path << val
+  left.traverse_post_order if left
+  right.traverse_post_order if right
+  puts val
 end
 ```
 
 The test includes a hardwired tree on which we test the methods.
+
+My final version uses metaprogramming making somewhat less verbose but may more opaque:
+
+```ruby
+class BinaryTree
+  attr_accessor :val, :left, :right
+
+  def initialize(val)
+    @val = val
+    @left = @right = nil
+  end
+
+  %w[pre in post].each_with_index do |prefix, index|
+    define_method("traverse_#{prefix}_order") do
+      left_to_right = [
+        -> { left.public_send("traverse_#{prefix}_order") if left },
+        -> { right.public_send("traverse_#{prefix}_order") if right }]
+      do_stuff = -> { puts val }
+      left_to_right.insert(index, do_stuff)
+      left_to_right.each { |x| x.yield }
+    end
+  end
+end
+```
+
+The ad-hoc tests made (tests for the correct output to stdout) pass.
 
 ### II. Hash
 

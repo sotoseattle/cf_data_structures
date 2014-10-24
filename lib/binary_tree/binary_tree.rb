@@ -1,4 +1,4 @@
-class BinaryTree < Node
+class BinaryTree
   attr_accessor :val, :left, :right
 
   def initialize(val)
@@ -6,21 +6,14 @@ class BinaryTree < Node
     @left = @right = nil
   end
 
-  def traverse_pre_order
-    puts val
-    left.traverse_pre_order if left
-    right.traverse_pre_order if right
-  end
-
-  def traverse_in_order
-    left.traverse_in_order if left
-    puts val
-    right.traverse_in_order if right
-  end
-
-  def traverse_post_order
-    left.traverse_post_order if left
-    right.traverse_post_order if right
-    puts val
+  %w[pre in post].each_with_index do |prefix, index|
+    define_method("traverse_#{prefix}_order") do
+      left_to_right = [
+        -> { left.public_send("traverse_#{prefix}_order") if left },
+        -> { right.public_send("traverse_#{prefix}_order") if right }]
+      do_stuff = -> { puts val }
+      left_to_right.insert(index, do_stuff)
+      left_to_right.each { |x| x.yield }
+    end
   end
 end
