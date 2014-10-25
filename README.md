@@ -79,7 +79,7 @@ class BinaryTree
 
   %w[pre in post].each_with_index do |prefix, index|
     define_method("traverse_#{prefix}_order") do
-      left_to_right(prefix).insert(index, do_stuff).each(&:yield)
+      instructions(prefix).insert(index, do_stuff).each(&:yield)
     end
   end
 
@@ -89,7 +89,7 @@ class BinaryTree
     -> { puts val }
   end
 
-  def left_to_right(prefix)
+  def instructions(prefix)
     [left, right].map { |e| -> { e.send("traverse_#{prefix}_order") if e } }
   end
 end
