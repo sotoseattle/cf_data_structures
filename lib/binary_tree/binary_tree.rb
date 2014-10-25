@@ -8,7 +8,7 @@ class BinaryTree
 
   %w[pre in post].each_with_index do |prefix, index|
     define_method("traverse_#{prefix}_order") do
-      left_to_right(prefix).insert(index, do_stuff).each { |x| x.yield }
+      left_to_right(prefix).insert(index, do_stuff).each(&:yield)
     end
   end
 
