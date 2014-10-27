@@ -275,6 +275,36 @@ def walk(&block)
 end
 ```
 
+### VI. Double Linked List
+
+Inherits most of its behavior from the Light Linked List. We only override the  insert and remove methods to make sure we track correctly both previous and next nodes.
+
+```ruby
+class DoubleLinkedList < LightLinkedList
+  def insert(node)
+    ...
+  end
+
+  def remove(node)
+  ...
+  end
+end
+```
+
+Also, this linked list is not comprised of Nodes, but of DoubleNodes, another subclass of Nodes that allows us to reference both: next and previous linked nodes. We added a detach method to simplify the code.
+
+```ruby
+class DoubleNode < Node
+  attr_accessor :prev
+
+  def detach
+    @nexxt = nil
+    @prev = nil
+    self
+  end
+end
+```
+
 ## SORTING ALGORITHMS
 
 I am monkeypatching Array but within a module that calls `refine`, so it both simpler to use and safer.
