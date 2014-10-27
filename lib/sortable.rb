@@ -52,7 +52,27 @@ module Sortable
       self[0...piv].quick_sort + [self[piv]] + self[piv+1..-1].quick_sort
     end
 
+    def radix_sort
+      to_sort = map(&:to_s)
+      (0..."#{max}".length).each do |order_of_magnitude|
+        to_sort = radix_level_sort(to_sort, order_of_magnitude)
+      end
+      to_sort.map(&:to_i)
+    end
+
     private
+
+    def radix_level_sort(arr_to_sort, order_of_magnitude)
+      bucket = Hash[[*0..9].map {|x| [x, Array.new]}]
+      arr_to_sort.each do |str|
+        bucket[significant_digit(str, order_of_magnitude)] << str
+      end
+      bucket.values.flatten
+    end
+
+    def significant_digit(str, order_of_magnitude)
+      str.reverse[order_of_magnitude].to_i
+    end
 
     def to_the_left_yet_bigger?(pivot, comp)
       comp < pivot && self[comp] > self[pivot]

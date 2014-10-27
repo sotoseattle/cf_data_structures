@@ -2,7 +2,61 @@
 
 I am monkeypatching Array but within a module that calls `refine`, so it both simpler to use and safer.
 
-## I. Merge Sort
+## I. Radix Sort
+
+Very simple implementation I tried to make it as readeable as possible.
+
+I use strings instead of numbers because they are easier to manipulate in this case.
+
+The key happens in every iteration when we place the numbers in their corresponding buckets and then unload the buckets back.
+
+```ruby
+def radix_level_sort(arr_to_sort, order_of_magnitude)
+  bucket = Hash[[*0..9].map {|x| [x, Array.new]}]
+  arr_to_sort.each do |str|
+    bucket[significant_digit(str, order_of_magnitude)] << str
+  end
+  bucket.values.flatten
+end
+```
+
+The work of iterating over the maginute order levels become trivial
+
+```ruby
+def radix_sort
+  to_sort = map(&:to_s)
+  (0..."#{max}".length).each do |order_of_magnitude|
+    to_sort = radix_level_sort(to_sort, order_of_magnitude)
+  end
+  to_sort.map(&:to_i)
+end
+```
+
+## II. Quick Sort
+
+A simple recursive algorithm. It shuffles the array, chooses as pivot the first element and finds its way to its final position by swapping with others until all the elements to its left are smaller and the ones to the right are bigger.
+
+Then, it calls itself to each subarray (left and right), fixing in place the pivot.
+
+```ruby
+def quick_sort
+  return self if size <= 1
+
+  self.shuffle! # fugly! would be better to => piv = rand(0...size)
+  piv, j = 0, 1
+  while j < size
+    if to_the_left_yet_bigger?(piv, j) || to_the_right_yet_smaller?(piv,j)
+      self[piv], self[j] = self[j], self[piv]
+      piv, j = j, piv
+    end
+    j += 1
+  end
+
+  self[0...piv].quick_sort + [self[piv]] + self[piv+1..-1].quick_sort
+end
+```
+
+## III. Merge Sort
 
 There are two separate parts to the algorithm:
 
@@ -55,7 +109,7 @@ end
 
 It is nice to run the benchmarks and see that independently of how sorted they are have similar performances.
 
-## II. Insert Sort
+## IV. Insert Sort
 
 My implementation has the following characteristics:
 
