@@ -1,6 +1,6 @@
 require_relative '../linked_list/light_linked_list'
 
-class Stack < LightLinkedList
+class LinkStack < LightLinkedList
   protected :insert, :remove
 
   def push(datum)
@@ -8,7 +8,7 @@ class Stack < LightLinkedList
   end
 
   def pop
-    fail RuntimeError.new('EmptyStackError') unless head
+    fail 'EmptyStackError' unless head
     remove(head)
   end
 end

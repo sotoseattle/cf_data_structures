@@ -6,7 +6,7 @@ class Node
   end
 
   def to_s
-    val.to_s
+    self >= val
   end
 end
 
@@ -18,7 +18,8 @@ class LightLinkedList
   end
 
   def insert(node)
-    node.nexxt = head
+    existing_node = head
+    node.nexxt = existing_node
     @head = node
   end
 
