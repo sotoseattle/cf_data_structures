@@ -7,6 +7,18 @@ describe DoubleLinkedList do
   let(:n3) { DoubleNode.new('third') }
   let(:dl) { dl_0.insert(n1).insert(n2).insert(n3) }
 
+  class DoubleLinkedList
+    def to_a
+      a = []
+      n = head
+      while n
+        a << n
+        n = n.nexxt
+      end
+      a
+    end
+  end
+
   describe 'DoubleLinkedList#size' do
     it { dl_0.size.must_equal 0 }
     it { dl_0.insert(DoubleNode.new).size.must_equal 1 }
@@ -91,6 +103,42 @@ describe DoubleLinkedList do
     it 'outputs to CSV with jsonified objects' do
       dl.insert(DoubleNode.new(42)).insert(DoubleNode.new(:item))
       dl.to_s.must_equal 'item, 42, third, second, first'
+    end
+  end
+
+  describe 'DoubleLinkedList#deduplicate' do
+    it 'removes duplicated nodes by val from the list' do
+      my_dl = DoubleLinkedList.new
+      200.times { my_dl.insert(DoubleNode.new(rand(100))) }
+      my_dl.deduplicate
+      my_dl.to_a.size.must_equal my_dl.to_a.uniq.size
+    end
+
+    it 'is stable => keeps the first deduplicated node starting from the head' do
+      my_dl = DoubleLinkedList.new
+      [8, 4, 2, 4, 9, 4, 8, 8, 0, 3].reverse.each do |e|
+        my_dl.insert(DoubleNode.new(e))
+      end
+      my_dl.deduplicate
+      my_dl.to_s.must_equal "8, 4, 2, 9, 0, 3"
+    end
+  end
+
+  describe 'DoubleLinkedList#deduplicate_On2' do
+    it 'removes duplicated nodes by val from the list with O(n^2) complexity' do
+      my_dl = DoubleLinkedList.new
+      200.times { my_dl.insert(DoubleNode.new(rand(100))) }
+      my_dl.deduplicate_On2
+      my_dl.to_a.size.must_equal my_dl.to_a.uniq.size
+    end
+
+    it 'is stable => keeps the first deduplicated node starting from the head' do
+      my_dl = DoubleLinkedList.new
+      [8, 4, 2, 4, 9, 4, 8, 8, 0, 3].reverse.each do |e|
+        my_dl.insert(DoubleNode.new(e))
+      end
+      my_dl.deduplicate_On2
+      my_dl.to_s.must_equal "8, 4, 2, 9, 0, 3"
     end
   end
 end
