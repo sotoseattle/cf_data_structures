@@ -4,7 +4,100 @@
 
 ## DATA STRUCTS
 
-### I. Hash
+### I. Binary Tree Traversal
+
+Not BST, but normal Binary Trees. Here we explore 3 depth-first traversal methods to walk a tree.
+
+To simplify things we make BT as simple nodes as we used them in the Light Linked List, with two links instead of one.
+
+The recursive nature for traversing the tree is the same in all cases: if able keep on exploring down the side of the tree.
+
+```ruby
+left.traverse_pre_order if left
+right.traverse_pre_order if right
+```
+
+The only thing that changes is where we 'pick' the val of the node (or examine the node): before, in between or after both recursive calls.
+We wrap this in an array, path, so we can see the path walked along the tree.
+
+```ruby
+def traverse_pre_order
+  puts val
+  left.traverse_pre_order if left
+  right.traverse_pre_order if right
+end
+
+def traverse_in_order
+  left.traverse_in_order if left
+  puts val
+  right.traverse_in_order if right
+end
+
+def traverse_post_order
+  left.traverse_post_order if left
+  right.traverse_post_order if right
+  puts val
+end
+```
+
+The test includes a hardwired tree on which we test the methods.
+
+My pre-final version uses metaprogramming making somewhat less verbose but may more opaque:
+
+```ruby
+class BinaryTree
+  attr_accessor :val, :left, :right
+
+  def initialize(val)
+    @val = val
+    @left = @right = nil
+  end
+
+  %w[pre in post].each_with_index do |prefix, index|
+    define_method("traverse_#{prefix}_order") do
+      left_to_right = [
+        -> { left.public_send("traverse_#{prefix}_order") if left },
+        -> { right.public_send("traverse_#{prefix}_order") if right }]
+      do_stuff = -> { puts val }
+      left_to_right.insert(index, do_stuff)
+      left_to_right.each { |x| x.yield }
+    end
+  end
+end
+```
+
+And my final version just goes bananas and metaprogramms just for the sake of it.
+
+```ruby
+class BinaryTree
+  attr_accessor :val, :left, :right
+
+  def initialize(val)
+    @val = val
+    @left = @right = nil
+  end
+
+  %w[pre in post].each_with_index do |prefix, index|
+    define_method("traverse_#{prefix}_order") do
+      instructions(prefix).insert(index, do_stuff).each(&:yield)
+    end
+  end
+
+  private
+
+  def do_stuff
+    -> { puts val }
+  end
+
+  def instructions(prefix)
+    [left, right].map { |e| -> { e.send("traverse_#{prefix}_order") if e } }
+  end
+end
+```
+
+The ad-hoc tests made (tests for the correct output to stdout) pass.
+
+### II. Hash
 
 My HashTable inherits from Array and initializes to an intial fixed size.
 
@@ -42,7 +135,7 @@ end
 
 I include the usual unit tests and an additional volume test based on the over 250,000 words from the file '/usr/share/dict/words'.'
 
-### II. Queue
+### III. Queue
 
 My Queue inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -76,7 +169,7 @@ class Queue < LightLinkedList
 end
 ```
 
-### III. Stack
+### IV. Stack
 
 My Stack inherits from Light Linked List, which simplifies the code tremendously.
 
@@ -108,7 +201,7 @@ class Stack < LightLinkedList
 end
 ```
 
-### IV. Linked List
+### V. Linked List
 
 #### As a Linked List of Nodes
 
