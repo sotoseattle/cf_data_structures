@@ -2,7 +2,39 @@
 
 ## DATA STRUCTS
 
-### I. Linked List
+### I. Stack
+
+My Stack inherits from Light Linked List, which simplifies the code tremendously.
+
+The Light Linked List is the simplest Linked List that uses both Nodes and Linked List objects ().
+
+The Stack's push method is analogous to the insert method with a small difference, we insert stuff into the Stack, not Nodes. So we wrap the stuff into a Node in the push method prior to inserting this wrapper Node.
+
+```ruby
+def push(datum)
+  insert(Node.new(datum))
+end
+```
+
+The pop method is also analogous to remove, we just need to specify inside our method that the node we remove is the head.
+
+```ruby
+def pop
+  fail RuntimeError.new('EmptyStackError') unless head
+  remove(head)
+end
+```
+
+Finally, I made the inherited insert and remove methods protected so they cannot be access by mistake in the Stack, and the API is coherent.
+
+```ruby
+class Stack < LightLinkedList
+  protected :insert, :remove
+  ...
+end
+```
+
+### II. Linked List
 
 #### As a Linked List of Nodes
 
