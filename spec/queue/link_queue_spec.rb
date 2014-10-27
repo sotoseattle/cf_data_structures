@@ -43,9 +43,7 @@ describe LinkQueue do
     end
 
     it 'throws exception if queue is already empty' do
-      assert_raises RuntimeError do
-        empty_q.dequeue
-      end
+      proc { empty_q.dequeue }.must_raise EmptyQueueError
     end
   end
 end

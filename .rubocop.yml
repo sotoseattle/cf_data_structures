@@ -5,7 +5,6 @@ LineLength:
   Max: 120
 
 AllCops:
-  RunRailsCops: true
   Include:
     - Gemfile
   Exclude:
