@@ -1,8 +1,86 @@
 # Data Structures and Algorithms
 
+## DATA STRUCTS
+
+### I. Linked List
+
+#### As a Linked List of Nodes
+
+I use an ad-hoc class for nodes with a very simple design:
+
+* A node holds only a value and a link to the next node
+* A node has an intuitive public interface:
+    * **new**
+    * **val** => returns the value it holds
+    * **next** => returns the next node it points to, or nil if none
+    * **point_to**(another_node) => make the node point to another one
+    * **detach** => make it point to nil, so it can be GC
+    * **to_s** => returns the held value as a string
+* Only a node can change himself the value it holds or to where it points to
+
+Of mention is the fact that when we detach a node, it returns the value it holds. This is a small utility behavior that simplifies the code of the linked list.
+
+A Linked List Object only holds two things which cannot be seen nor accessed from outside the list:
+
+* the **head**, A pointer to the first element of the list.
+* a traversor, an Enumerator object that adds traversing functionality and simplifies the code.
+
+The traversor just walks the list from the head until its end, yielding any possible block for each node walked by.
+```ruby
+@traversor = Enumerator.new do |y|
+  node = head
+  while node
+    y << node
+    node = node.next
+  end
+end
+```
+
+The public interface consists of:
+
+* **new**
+* **size** => returns the number of nodes in list
+* **insert(node)** => at head (LIFO)
+* **serch(node)** => returns val or nil if not found
+* **remove(node)** => detaches node and bridges between pre and post nodes
+* **to_s** => returns a string of nodes' values
+* **to_a** => returns an array of nodes
+
+The initiliazer returns self so we can chain methods.
+
+The insert method adds a node to the head of the list. I have chosen not to use parallel assignment because I rather left to the node the actual setting of the link. This is a compromise between simplicity of the code and readability and decoupling. The insert method also returns the list so we can chain multiple insertions together.
+
+The size method just counts the number of elements in the traversor. This is another compromise. I could have kept count with an instance variable and add/substract everytime I insert/remove a node. But I rather keep things simple, and only call size when needed, even if then it will need to walk the whole list.
+
+```ruby
+def size
+  traversor.count
+end
+```
+
+The rest of methods are self-explanatory.
+
+#### As Nodes Linked
+
+Instead of having a List object, we just have nodes pointing to nodes.
+Self explanatory and very similar to the previous.
+We create our own traversor and use it extensively.
+
+```ruby
+def walk(&block)
+  n = self
+  while n
+    yield(n)
+    n = n.nexxt
+  end
+end
+```
+
+## SORTING ALGORITHMS
+
 I am monkeypatching Array but within a module that calls `refine`, so it both simpler to use and safer.
 
-## I. Radix Sort
+### I. Radix Sort
 
 Very simple implementation I tried to make it as readeable as possible.
 
@@ -32,7 +110,7 @@ def radix_sort
 end
 ```
 
-## II. Quick Sort
+### II. Quick Sort
 
 A simple recursive algorithm. It shuffles the array, chooses as pivot the first element and finds its way to its final position by swapping with others until all the elements to its left are smaller and the ones to the right are bigger.
 
@@ -56,7 +134,7 @@ def quick_sort
 end
 ```
 
-## III. Merge Sort
+### III. Merge Sort
 
 There are two separate parts to the algorithm:
 
@@ -109,7 +187,7 @@ end
 
 It is nice to run the benchmarks and see that independently of how sorted they are have similar performances.
 
-## IV. Insert Sort
+### IV. Insert Sort
 
 My implementation has the following characteristics:
 
@@ -162,7 +240,3 @@ Beware that neither irb nor pry understand 'refinements'. You'll need to execute
 - Javier Soto
 - Derek Maffet, who realized that to make Insert Sort stable the condition should be x <= e instead of simple x < e
 - Sunny Mittal's comparison benchmarking is an incentive to aim for better performance.
-
-## Readings:
-
-- [Ruby Algorithms: Sorting, Trie & Heaps](https://www.igvita.com/2009/03/26/ruby-algorithms-sorting-trie-heaps/)
