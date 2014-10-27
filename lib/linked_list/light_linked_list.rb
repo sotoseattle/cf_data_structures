@@ -67,13 +67,3 @@ class LightLinkedList
     i
   end
 end
-
-# a = Node.new('A')
-# b = Node.new('B')
-# c = Node.new('C')
-# ll = LightLinkedList.new
-# ll.insert(c)
-# ll.insert(b)
-# ll.insert(a)
-# p ll.size
-# p ll.remove(c)
