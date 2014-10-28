@@ -275,6 +275,100 @@ def walk(&block)
 end
 ```
 
+### VI. Double Linked List
+
+Inherits most of its behavior from the Light Linked List. We only override the  insert and remove methods to make sure we track correctly both previous and next nodes.
+
+```ruby
+class DoubleLinkedList < LightLinkedList
+  def insert(node)
+    ...
+  end
+
+  def remove(node)
+  ...
+  end
+end
+```
+
+Also, this linked list is not comprised of Nodes, but of DoubleNodes, another subclass of Nodes that allows us to reference both: next and previous linked nodes. We added a detach method to simplify the code.
+
+```ruby
+class DoubleNode < Node
+  attr_accessor :prev
+
+  def detach
+    @nexxt = nil
+    @prev = nil
+    self
+  end
+end
+```
+
+The deduplicate method removes repeated nodes preserving the first one (starting from the head). The tests are extensive:
+
+```ruby
+describe 'DoubleLinkedList#deduplicate' do
+  it 'removes duplicated nodes by val from the list' do
+    my_dl = DoubleLinkedList.new
+    200.times { my_dl.insert(DoubleNode.new(rand(100))) }
+    my_dl.deduplicate
+    my_dl.to_a.size.must_equal my_dl.to_a.uniq.size
+  end
+
+  it 'is stable => keeps the first deduplicated node starting from the head' do
+    my_dl = DoubleLinkedList.new
+    [8, 4, 2, 4, 9, 4, 8, 8, 0, 3].reverse.each do |e|
+      my_dl.insert(DoubleNode.new(e))
+    end
+    my_dl.deduplicate
+    my_dl.to_s.must_equal "8, 4, 2, 9, 0, 3"
+  end
+end
+```
+
+The method is simple except for an ugly preservation of the pointed node at removal. We keep track of existing nodes with a hash. It has O(n) time complexity.
+
+```ruby
+def deduplicate
+  existing = Hash.new
+  n = head
+  while n
+    if existing[n.val]
+      m = n.nexxt  # <===================== Refactor
+      remove(n)
+      n = m        # <===================== Refactor
+    else
+      existing[n.val] = true
+      n = n.nexxt  # <===================== Refactor
+    end
+  end
+end
+```
+
+Without the hash to keep track we would need to re-iterate for each node, making it O(n^2).
+
+```ruby
+def deduplicate_On2
+  n = head
+  while n
+    forward_remove(n.nexxt, n)
+    n = n.nexxt
+  end
+end
+
+private
+
+def forward_remove(start, target)
+  n = start
+  while n
+    m = n.nexxt     # <===================== Refactor
+    bridge(n) if n.val == target.val
+    n = m           # <===================== Refactor
+  end
+end
+```
+
 ## SORTING ALGORITHMS
 
 I am monkeypatching Array but within a module that calls `refine`, so it both simpler to use and safer.
