@@ -335,12 +335,12 @@ def deduplicate
   n = head
   while n
     if existing[n.val]
-      m = n.nexxt  # <===================== Refactor
-      remove(n)
-      n = m        # <===================== Refactor
+      m = n.nexxt
+      bridge(n)
+      n = m
     else
       existing[n.val] = true
-      n = n.nexxt  # <===================== Refactor
+      n = n.nexxt
     end
   end
 end
@@ -362,9 +362,9 @@ private
 def forward_remove(start, target)
   n = start
   while n
-    m = n.nexxt     # <===================== Refactor
+    m = n.nexxt
     bridge(n) if n.val == target.val
-    n = m           # <===================== Refactor
+    n = m
   end
 end
 ```
