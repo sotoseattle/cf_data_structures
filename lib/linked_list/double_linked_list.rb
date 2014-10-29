@@ -34,7 +34,7 @@ class DoubleLinkedList < LightLinkedList
     while n
       if existing[n.val]
         m = n.nexxt
-        remove(n)
+        bridge(n)
         n = m
       else
         existing[n.val] = true
@@ -42,7 +42,6 @@ class DoubleLinkedList < LightLinkedList
       end
     end
   end
-
 
   def deduplicate_On2
     n = head
