@@ -3,20 +3,14 @@ require_relative '../linked_list/light_linked_list'
 class HashTable < Array
   def get(key)
     list = self[position(key)]
-    if list && (n = list.search(key))
-      return n.holds
-    end
-    nil
+    (list && (n = list.search(key))) ? n.holds : nil
   end
 
   def set(key, val)
     fail KeyHashTableError unless key.is_a? String
     index = position(key)
-    if self[index]
-      self[index].insert(NodePlus.new(key, val))
-    else
-      self[index] = LightLinkedList.new.insert(NodePlus.new(key, val))
-    end
+    self[index] ||= LightLinkedList.new
+    self[index].insert(NodePlus.new(key, val))
   end
 
   private
