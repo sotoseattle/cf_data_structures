@@ -120,15 +120,15 @@ describe DoubleLinkedList do
         my_dl.insert(DoubleNode.new(e))
       end
       my_dl.deduplicate
-      my_dl.to_s.must_equal "8, 4, 2, 9, 0, 3"
+      my_dl.to_s.must_equal '8, 4, 2, 9, 0, 3'
     end
   end
 
-  describe 'DoubleLinkedList#deduplicate_On2' do
+  describe 'DoubleLinkedList#deduplicate_on_2' do
     it 'removes duplicated nodes by val from the list with O(n^2) complexity' do
       my_dl = DoubleLinkedList.new
       200.times { my_dl.insert(DoubleNode.new(rand(100))) }
-      my_dl.deduplicate_On2
+      my_dl.deduplicate_on_2
       my_dl.to_a.size.must_equal my_dl.to_a.uniq.size
     end
 
@@ -137,8 +137,8 @@ describe DoubleLinkedList do
       [8, 4, 2, 4, 9, 4, 8, 8, 0, 3].reverse.each do |e|
         my_dl.insert(DoubleNode.new(e))
       end
-      my_dl.deduplicate_On2
-      my_dl.to_s.must_equal "8, 4, 2, 9, 0, 3"
+      my_dl.deduplicate_on_2
+      my_dl.to_s.must_equal '8, 4, 2, 9, 0, 3'
     end
   end
 end

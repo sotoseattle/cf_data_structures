@@ -6,7 +6,7 @@ class BinaryTree
     @left = @right = nil
   end
 
-  %w[pre in post].each_with_index do |prefix, index|
+  %w(pre in post).each_with_index do |prefix, index|
     define_method("traverse_#{prefix}_order") do
       instructions(prefix).insert(index, do_stuff).each(&:yield)
     end

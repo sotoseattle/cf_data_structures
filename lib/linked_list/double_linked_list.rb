@@ -29,21 +29,19 @@ class DoubleLinkedList < LightLinkedList
   end
 
   def deduplicate
-    existing = Hash.new
-    n = head
+    existing, n = {}, head
     while n
       if existing[n.val]
         m = n.nexxt
         bridge(n)
         n = m
       else
-        existing[n.val] = true
-        n = n.nexxt
+        existing[n.val], n = true, n.nexxt
       end
     end
   end
 
-  def deduplicate_On2
+  def deduplicate_on_2
     n = head
     while n
       forward_remove(n.nexxt, n)

@@ -211,8 +211,8 @@ I use an ad-hoc class for nodes with a very simple design:
 * A node has an intuitive public interface:
     * **new**
     * **val** => returns the value it holds
-    * **next** => returns the next node it points to, or nil if none
-    * **point_to**(another_node) => make the node point to another one
+    * **nexxt** => returns the next node it points to, or nil if none
+    * **nexxt=** => sets the next node it points to
     * **detach** => make it point to nil, so it can be GC
     * **to_s** => returns the held value as a string
 * Only a node can change himself the value it holds or to where it points to

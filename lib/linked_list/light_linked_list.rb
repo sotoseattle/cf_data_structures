@@ -52,8 +52,7 @@ class LightLinkedList
         node.nexxt = nil
         return node.val
       end
-      prev = n
-      n = n.nexxt
+      prev, n = n, n.nexxt
     end
   end
 

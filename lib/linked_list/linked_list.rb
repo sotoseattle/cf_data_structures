@@ -1,13 +1,10 @@
 class Node
-  attr_reader :val, :nexxt
+  attr_reader :val
+  attr_accessor :nexxt
 
   def initialize(val = nil)
     @nexxt = nil
     @val = val
-  end
-
-  def point_to(other)
-    @nexxt = other
   end
 
   def detach
@@ -52,7 +49,7 @@ class LinkedList
   def insert(node)
     temp = head
     self.head = node
-    node.point_to(temp)
+    node.nexxt = temp
     self
   end
 
@@ -65,7 +62,7 @@ class LinkedList
     prev = nil
     traversor.each do |n|
       if n == node
-        prev ? prev.point_to(node.nexxt) : @head = node.nexxt
+        prev ? prev.nexxt = node.nexxt : @head = node.nexxt
         return node.detach
       end
       prev = n
