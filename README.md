@@ -4,7 +4,6 @@ DATA STRUCTURES & ALGORITHMS
 ## Code Fellows Practice & Exercises
 
 ![Travis](https://travis-ci.org/sotoseattle/cf_data_structures.svg?branch=master)
-[![Coverage Status](https://img.shields.io/coveralls/sotoseattle/cf_data_structures.svg)](https://coveralls.io/r/sotoseattle/cf_data_structures)
 
 Table of Contents
 =================

@@ -7,6 +7,3 @@ require './lib/queue/link_queue'
 require './lib/hash/hash_table'
 require './lib/binary_tree/binary_tree'
 require './lib/linked_list/double_linked_list'
-
-require 'coveralls'
-Coveralls.wear!
